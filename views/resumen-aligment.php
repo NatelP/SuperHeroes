@@ -49,7 +49,7 @@
       });
 
       (function (){
-        fetch(`../controllers/Superheros.controller.php?operacion=spu_publisher_aligment_resumen`)
+        fetch(`../controllers/Superheros.controller.php?operacion=getResumenAlignment`)
         .then(respuesta=>respuesta.json())
         .then(datos=>{
           grafico.data.labels=datos.map(registro=>registro.alignment)
