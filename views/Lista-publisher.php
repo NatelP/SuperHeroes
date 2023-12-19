@@ -51,11 +51,9 @@
 
           function $(id) { return document.querySelector(id) }
 
-          // Obtener los editores disponibles
           fetch(`../controllers/Publisher.controller.php?operacion=listar`)
             .then(respuesta => respuesta.json())
             .then(editores => {
-              // Obtención del select y creación de las opciones
               const selectPublisher = $("#selectPublisher");
               editores.forEach(editor => {
                 const option = document.createElement("option");
@@ -68,14 +66,12 @@
               console.error(e);
             });
 
-          // Función para cargar los superhéroes según el editor seleccionado
           $("#selectPublisher").addEventListener("change", () => {
             const selectedPublisherId = $("#selectPublisher").value;
 
             fetch(`../controllers/Superheros.controller.php?operacion=listar&publisher=${selectedPublisherId}`)
               .then(respuesta => respuesta.json())
               .then(datos => {
-                // Limpiar la tabla antes de agregar nuevas filas
                 $("#tablaHeroes").innerHTML = '';
 
                 datos.forEach(element => {

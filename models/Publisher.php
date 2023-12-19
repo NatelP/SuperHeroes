@@ -19,5 +19,16 @@ class Publisher extends conexion{
       die($e->getMessage());
     }
   }
+
+  public function getAliPubli($publisherId){
+    try{
+      $consulta = $this->pdo->prepare("CALL spu_alignment_por_editor(?)");
+      $consulta->bindParam(1, $publisherId, PDO::PARAM_INT);
+      $consulta->execute();
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch(Exception $e){
+      die($e->getMessage());
+    }
+}
 }
 ?>

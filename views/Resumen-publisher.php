@@ -30,17 +30,51 @@
         </select>
       </div>
     </div>
+
+    <div style="width: 70%; margin:auto">
+      <canvas id="grafico"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+    let grafico = null; 
 
-        function $(id) { return document.querySelector(id) }
+    function $(id) { return document.querySelector(id) }
 
-        // Obtener los editores disponibles
+    const selectPublisher = $("#selectPublisher");
+
+    selectPublisher.addEventListener('change', () => {
+      const selectedPublisherId = selectPublisher.value;
+      fetch(`../controllers/Publisher.controller.php?operacion=getAlignment&publisherId=${selectedPublisherId}`)
+        .then(respuesta => respuesta.json())
+        .then(data => {
+          const contexto = document.getElementById('grafico').getContext('2d');
+          if (grafico) {
+            grafico.destroy();
+          }
+          grafico = new Chart(contexto, {
+            type: 'bar',
+            data: {
+              labels: data.map(registro => registro.alignment),
+              datasets: [{
+                label: 'Total por alignment',
+                data: data.map(registro => registro.TotalAliPubli),
+                backgroundColor: 'rgba(54,162,235,0.5)',
+                borderColor: 'rgba(54,162,235,1)',
+                borderWidth: 1
+              }]
+            },
+          });
+        })
+        .catch(e => {
+          console.error(e);
+        });
+    });
+
         fetch(`../controllers/Publisher.controller.php?operacion=listar`)
           .then(respuesta => respuesta.json())
           .then(editores => {
-            // Obtención del select y creación de las opciones
-            const selectPublisher = $("#selectPublisher");
             editores.forEach(editor => {
               const option = document.createElement("option");
               option.value = editor.id;
