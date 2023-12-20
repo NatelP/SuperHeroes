@@ -73,9 +73,7 @@ END $$
 
 
 DELIMITER $$
-CREATE PROCEDURE spu_alignment_por_editor(
-    IN publisherId INT
-)
+CREATE PROCEDURE spu_alignment_por_editor(IN publisherId INT)
 BEGIN
     SELECT a.alignment, COUNT(a.alignment) AS 'TotalAliPubli'
     FROM superhero sh
@@ -84,4 +82,12 @@ BEGIN
     GROUP BY a.alignment;
 END$$
 
-CALL spu_alignment_por_editor(1);
+DELIMITER $$
+CREATE PROCEDURE spu_total_heroes_por_editor(IN publisherId INT)
+BEGIN
+    SELECT COUNT(*) AS 'totalHeroes'
+    FROM superhero
+    WHERE publisher_id = publisherId;
+END$$
+
+CALL spu_total_heroes_por_editor(1);
