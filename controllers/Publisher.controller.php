@@ -13,8 +13,17 @@ if(isset($_GET['operacion'])){
       $resultadoAlineamiento = $publisher->getAliPubli($publisherId);
       echo json_encode($resultadoAlineamiento);
     } else {
-      echo json_encode(array('error' => 'No se proporcionó el ID del editor'));
+      echo json_encode(array('error'));
     }
   }
+  if ($_GET['operacion'] == 'getTotalHeroes') {
+    if (isset($_GET['publisherId'])) {
+        $publisherId = $_GET['publisherId'];
+        $resultadoTotalHeroes = $publisher->getTotalHeroes($publisherId);
+        echo json_encode($resultadoTotalHeroes);
+    } else {
+        echo json_encode(array('error'));
+    }
+}
 }
 ?>
